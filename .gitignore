@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Generated output and reports
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+
+# Tool caches
+.cache/
+.vite/
+*.tsbuildinfo
+
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+
+# Personal data and scratch work (never deploy)
+private/
+local-data/
+tmp/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
