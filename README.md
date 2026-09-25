@@ -54,7 +54,7 @@ The first browser-only release includes a responsive tool dashboard, search, cat
 - **Images to PDF:** fit local raster images onto portrait or landscape A4 pages.
 - **CSV Table Viewer:** read-only table with filtering, text/numeric sorting, pagination, and filtered CSV export.
 
-Favorites, recents, and theme preferences are saved locally when browser storage is available. The original calculation/conversion tools do not save inputs or passwords. The five workspace tools save records only after an explicit Add/Save action; their privacy notice says so. Workspace data and JSON backups are **not encrypted**, and there is no cloud sync. Export backups regularly; clearing browser data removes local records. Empty planned folders retain `.gitkeep` files. Deployment automation is not configured yet.
+Favorites, recents, and theme preferences are saved locally when browser storage is available. The original calculation/conversion tools do not save inputs or passwords. The five workspace tools save records only after an explicit Add/Save action; their privacy notice says so. Workspace data and JSON backups are **not encrypted**, and there is no cloud sync. Export backups regularly; clearing browser data removes local records. Empty planned folders retain `.gitkeep` files. GitHub Actions runs CI and publishes the site to GitHub Pages from `main`.
 
 ## Homepage tool status
 
@@ -64,7 +64,7 @@ The homepage includes a searchable status table generated from the tool registry
 - **12 Planned:** selected upcoming tools, clearly marked as not implemented and without launch links.
 - Five tools support local saving and JSON backups.
 
-Status describes implementation progress, not live uptime or universal browser compatibility. Roadmap entries are not delivery commitments. Publishing and offline caching remain pending.
+Status describes implementation progress, not live uptime or universal browser compatibility. Roadmap entries are not delivery commitments. Offline caching remains pending; GitHub Pages publishing is handled by the Pages workflow after repository Pages setup.
 
 ## Run locally
 

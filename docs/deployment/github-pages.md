@@ -1,6 +1,6 @@
 # GitHub Pages deployment requirements
 
-The Vite build is configured with base `/ClickHub/` and generates `dist/`. Hash routing is implemented. Automated deployment is not configured yet; the current GitHub connection previously rejected workflow-file changes because it lacks workflows permission.
+The Vite build is configured with base `/ClickHub/` and generates `dist/`. Hash routing is implemented. The repository includes `.github/workflows/pages.yml`, which builds and publishes `dist/` to GitHub Pages after pushes to `main`, and can also be started manually. `.github/workflows/ci.yml` validates pushes and pull requests.
 
 ## Paths
 
