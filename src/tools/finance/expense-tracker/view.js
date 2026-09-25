@@ -1,0 +1,5 @@
+import { mountCollection } from '../../../components/workspace/collection.js';
+import { localToday } from '../../../lib/storage/workspace.js';
+import { validate,parseAmount,totals,currencies } from './logic.js';
+export const config={id:'expense-tracker',name:'expenses',validate,fields:[{id:'title',label:'Expense description',max:200},{id:'amount',label:'Amount (positive, up to two decimal places)',type:'number',step:'0.01'},{id:'currency',label:'Currency',options:currencies},{id:'date',label:'Expense date',type:'date',default:localToday}],fromFields:v=>validate({...v,cents:parseAmount(v.amount)}),fieldValue:(r,key)=>key==='amount'?(r.cents/100).toFixed(2):r[key],search:r=>`${r.title} ${r.currency} ${r.date}`,describe:r=>`${r.currency} ${(r.cents/100).toFixed(2)} · ${r.date}`,summary:rows=>`${rows.length} expenses · Totals (all records): ${Object.entries(totals(rows)).map(([currency,cents])=>`${currency} ${(cents/100).toFixed(2)}`).join(' · ')||'none'}`};
+export const mount=(container,feedback)=>mountCollection(container,feedback,config);
