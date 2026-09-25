@@ -4,7 +4,7 @@ A personal, browser-first toolbox planned for free hosting on GitHub Pages.
 
 ## Project status
 
-The first browser-only release includes a responsive tool dashboard, search, category filters, favorites, recent tools, light/dark themes, and **42 working tools**:
+The first browser-only release includes a responsive tool dashboard, search, category filters, favorites, recent tools, light/dark themes, and **47 working tools**:
 
 - **Text Workbench:** counts words, characters (UTF-16 code units), and lines; converts case; cleans spaces; removes duplicate lines.
 - **JSON Formatter:** validates, formats, and minifies JSON. Uses JavaScript JSON parsing; numbers beyond JavaScript’s safe precision may lose precision and duplicate keys collapse.
@@ -54,14 +54,20 @@ The first browser-only release includes a responsive tool dashboard, search, cat
 - **Images to PDF:** fit local raster images onto portrait or landscape A4 pages.
 - **CSV Table Viewer:** read-only table with filtering, text/numeric sorting, pagination, and filtered CSV export.
 
+- **Text Diff Checker:** line-by-line comparison with optional whitespace/case ignoring and a copyable unified diff.
+- **Markdown Editor:** live preview of a safe Markdown subset (raw HTML is never rendered), HTML copy, and `.md` download.
+- **Regex Tester:** JavaScript regex matches, capture/named groups, and replacement preview in a background worker with a 2-second runaway-pattern stop.
+- **Time Zone Planner:** one meeting time across IANA time zones, with UTC offsets, day shifts, working-hour hints, and DST gap/overlap handling.
+- **Budget Planner:** monthly income and budget lines calculated in exact cents, compared with the 50/30/20 rule of thumb.
+
 Favorites, recents, and theme preferences are saved locally when browser storage is available. The original calculation/conversion tools do not save inputs or passwords. The five workspace tools save records only after an explicit Add/Save action; their privacy notice says so. Workspace data and JSON backups are **not encrypted**, and there is no cloud sync. Export backups regularly; clearing browser data removes local records. Empty planned folders retain `.gitkeep` files. GitHub Actions runs CI and publishes the site to GitHub Pages from `main`.
 
 ## Homepage tool status
 
 The homepage includes a searchable status table generated from the tool registry:
 
-- **42 Available:** each implemented tool, its category, storage behavior, and an Open link.
-- **12 Planned:** selected upcoming tools, clearly marked as not implemented and without launch links.
+- **47 Available:** each implemented tool, its category, storage behavior, and an Open link.
+- **7 Planned:** selected upcoming tools, clearly marked as not implemented and without launch links.
 - Five tools support local saving and JSON backups.
 
 Status describes implementation progress, not live uptime or universal browser compatibility. Roadmap entries are not delivery commitments. Offline caching remains pending; GitHub Pages publishing is handled by the Pages workflow after repository Pages setup.
@@ -104,6 +110,7 @@ Keep root files limited to project metadata and required configuration. Put tool
 
 ## Documentation
 
+- [Batch five validation](docs/audits/batch-five.md)
 - [Document tools validation](docs/audits/documents.md)
 - [Media and timer validation](docs/audits/media-timers.md)
 - [Workspace guide and validation](docs/audits/workspace.md)
@@ -120,7 +127,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The Playwright suite tests production output at `/ClickHub/` in desktop and mobile-emulated Chromium. It covers all 42 tools, navigation, persistence, input errors, and automated accessibility checks. These checks do not replace manual assistive-technology testing or testing on real mobile devices.
+The Playwright suite tests production output at `/ClickHub/` in desktop and mobile-emulated Chromium. It covers all 47 tools, navigation, persistence, input errors, and automated accessibility checks. These checks do not replace manual assistive-technology testing or testing on real mobile devices.
 
 For an existing Chromium installation, set `CHROMIUM_EXECUTABLE=/path/to/chromium` when running `npm run test:e2e`. Linux may require `npx playwright install-deps chromium`. See the audit report for the sandbox workaround and results.
 

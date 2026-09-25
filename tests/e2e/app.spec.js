@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 test('search, favorites and theme persist', async ({ page }) => {
  await page.goto('./');
- await expect(page.locator('.tool-card')).toHaveCount(42);
+ await expect(page.locator('.tool-card')).toHaveCount(47);
  await page.locator('#search').fill('uuid');
  await expect(page.locator('.tool-card')).toHaveCount(1);
  await page.getByRole('button', {name: 'Favorite UUID Generator',exact:true}).click();

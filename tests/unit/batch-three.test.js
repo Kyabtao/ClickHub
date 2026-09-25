@@ -66,4 +66,4 @@ test('storage degrades safely when unavailable or corrupted', () => {
   assert.equal(load('theme','light'),'light'); assert.equal(save('theme','dark'),false);
  } finally { if(previous) Object.defineProperty(globalThis,'localStorage',previous); else delete globalThis.localStorage; }
 });
-test('registry has exactly 42 unique tools', () => {assert.equal(tools.length,42);assert.equal(new Set(tools.map(t=>t.id)).size,42);});
+test('registry has exactly 47 unique tools', () => {assert.equal(tools.length,47);assert.equal(new Set(tools.map(t=>t.id)).size,47);});

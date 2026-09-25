@@ -41,4 +41,9 @@ export const tools = [
  {"id": "pdf-organizer", "name": "PDF Page Organizer", "category": "Media & files", "description": "Reorder, remove, duplicate, and rotate PDF pages.", "icon": "\u25a4", "tags": "pdf organizer", "color": "blue"},
  {"id": "images-to-pdf", "name": "Images to PDF", "category": "Media & files", "description": "Arrange local images on A4 PDF pages.", "icon": "\u25a4", "tags": "images to pdf", "color": "blue"},
  {"id": "csv-viewer", "name": "CSV Table Viewer", "category": "Data", "description": "Browse, filter, sort, and export CSV rows.", "icon": "\u25a4", "tags": "csv viewer", "color": "blue"},
+ {"id": "text-diff", "name": "Text Diff Checker", "category": "Text & writing", "description": "Compare two texts line by line and see what changed.", "icon": "\u00b1", "tags": "text diff compare changes difference", "color": "purple"},
+ {"id": "markdown-editor", "name": "Markdown Editor", "category": "Text & writing", "description": "Write Markdown with a safe live preview and HTML export.", "icon": "M\u2193", "tags": "markdown editor preview html writing", "color": "purple"},
+ {"id": "regex-tester", "name": "Regex Tester", "category": "Developer", "description": "Test regular expressions, groups, and replacements.", "icon": ".*", "tags": "regex regular expression pattern match replace", "color": "blue"},
+ {"id": "time-zone-planner", "name": "Time Zone Planner", "category": "Travel", "description": "See a meeting time across time zones and working hours.", "icon": "\u25cd", "tags": "time zone meeting world clock travel dst", "color": "orange"},
+ {"id": "budget-planner", "name": "Budget Planner", "category": "Finance", "description": "Plan monthly spending and compare with 50/30/20.", "icon": "\u25d4", "tags": "budget planner monthly income 50/30/20 savings", "color": "orange"},
 ];

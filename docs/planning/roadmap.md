@@ -1,6 +1,6 @@
 # Implementation roadmap
 
-Current state: Vite/vanilla JavaScript application shell and 42 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. Deployment automation and offline caching remain pending.
+Current state: Vite/vanilla JavaScript application shell and 47 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. Deployment automation and offline caching remain pending.
 
 1. Foundation: choose a static frontend stack; implement search, categories, favorites, recent tools, themes, responsive layout, and Pages deployment.
 2. Core utilities: text workbench, JSON formatting, encoding, UUID and password generation, timestamps, units, basic calculators.
@@ -29,3 +29,5 @@ The personal workspace now includes Notes, Tasks, Habit Tracker, Bookmark Manage
 Media/timer batch adds QR generation, image resizing, image format conversion, Pomodoro, and stopwatch. Validation totals: 47 unit tests and 98 browser tests; see `docs/audits/media-timers.md`.
 
 Document batch adds PDF merge/extract/organize, images-to-PDF, and CSV table viewing. Full validation: 55 unit tests and 112 desktop/mobile-emulated browser tests. See `docs/audits/documents.md`.
+
+Batch five implements five roadmap items: Text Diff Checker, Markdown Editor, Regex Tester, Time Zone Planner, and Budget Planner. Seven planned tools remain (Chart Builder, Image Cropper, ZIP, OCR, Audio Trimmer, Flashcards, Quiz Builder). Full validation: 61 unit tests and 128 desktop/mobile-emulated browser tests. See `docs/audits/batch-five.md`.

@@ -1,9 +1,6 @@
 import { tools } from './registry.js';
 // Roadmap entries are not registered as working tools or given launch links.
 export const plannedTools = [
- { name: 'Markdown Editor', category: 'Text & writing' },
- { name: 'Text Diff Checker', category: 'Text & writing' },
- { name: 'Regex Tester', category: 'Developer' },
  { name: 'Chart Builder', category: 'Data' },
  { name: 'Image Cropper', category: 'Media & files' },
  { name: 'ZIP Creator / Extractor', category: 'Media & files' },
@@ -11,8 +8,6 @@ export const plannedTools = [
  { name: 'Audio Trimmer', category: 'Media & files' },
  { name: 'Flashcards', category: 'Education' },
  { name: 'Quiz Builder', category: 'Education' },
- { name: 'Time Zone Planner', category: 'Travel' },
- { name: 'Budget Planner', category: 'Finance' },
 ];
 export function statusEntries() {
  return [
