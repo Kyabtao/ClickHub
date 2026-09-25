@@ -1,0 +1,25 @@
+import {csvTable,filterSort,tableCSV} from './logic.js';
+export function mount(container,feedback){
+ let active=true,sequence=0,table=null,page=0,view=[],downloadURL=null;
+ container.innerHTML='<label class="field-label" for="table-file">CSV file (UTF-8, up to 1 MiB)</label><input id="table-file" type="file" accept=".csv,text/csv"><label class="field-label" for="table-input">Or paste CSV (first row is headings)</label><textarea id="table-input" spellcheck="false"></textarea><div class="actions"><button id="load-table" class="primary">Load table</button></div><p>Read-only viewer. Comma-separated CSV only. Up to 5,000 rows and 100 columns. Export includes all filtered rows, not just the visible page.</p><div id="table-controls" hidden><label class="field-label" for="table-filter">Filter rows</label><input id="table-filter" type="search"><label class="field-label" for="table-sort">Sort column</label><select id="table-sort"><option value="-1">Original order</option></select><label class="field-label" for="table-direction">Direction</label><select id="table-direction"><option value="asc">Ascending</option><option value="desc">Descending</option></select><label class="check-label"><input id="table-numeric" type="checkbox"> Numeric sorting (blank/non-numeric cells last)</label><label class="check-label"><input id="table-safe" type="checkbox" checked> Prefix formula-like cells with an apostrophe on export</label><p>This export option changes cell text, including negative numbers. Review files before opening in a spreadsheet; it is not a universal spreadsheet security guarantee.</p><div class="actions"><button id="export-table">Export filtered CSV</button><button id="previous-page">Previous</button><button id="next-page">Next</button></div><p id="table-status" role="status"></p></div><div id="table-view" class="table-scroll" role="region" aria-label="CSV table" tabindex="0"></div>';
+ const $=selector=>container.querySelector(selector);
+ function clear(){table=null;view=[];page=0;$('#table-controls').hidden=true;$('#table-view').replaceChildren();if(downloadURL)URL.revokeObjectURL(downloadURL);downloadURL=null;feedback.textContent='';}
+ function render(){
+  if(!table)return;
+  view=filterSort(table.rows,$('#table-filter').value,Number($('#table-sort').value),$('#table-direction').value,$('#table-numeric').checked);
+  const pages=Math.max(1,Math.ceil(view.length/50));page=Math.min(page,pages-1);
+  $('#table-status').textContent=`${view.length} of ${table.rows.length} rows · Page ${page+1} of ${pages}`;
+  $('#previous-page').disabled=page===0;$('#next-page').disabled=page>=pages-1;
+  const element=document.createElement('table'),caption=document.createElement('caption');caption.textContent='CSV data (50 rows per page)';element.append(caption);
+  const head=document.createElement('thead'),tr=document.createElement('tr');for(const heading of table.headers){const th=document.createElement('th');th.scope='col';th.textContent=heading;tr.append(th);}head.append(tr);element.append(head);
+  const body=document.createElement('tbody');for(const row of view.slice(page*50,page*50+50)){const line=document.createElement('tr');for(const cell of row){const td=document.createElement('td');td.textContent=cell;line.append(td);}body.append(line);}element.append(body);$('#table-view').replaceChildren(element);
+ }
+ function load(){clear();try{table=csvTable($('#table-input').value);const sort=$('#table-sort');sort.replaceChildren();for(const [index,label] of [[-1,'Original order'],...table.headers.map((name,i)=>[i,name])]){const option=document.createElement('option');option.value=String(index);option.textContent=label;sort.append(option);}$('#table-filter').value='';$('#table-controls').hidden=false;render();feedback.textContent='Table loaded locally.';}catch(error){feedback.textContent=error.message;}}
+ $('#load-table').onclick=()=>{sequence++;load();};
+ $('#table-input').oninput=()=>{sequence++;clear();};
+ $('#table-file').onchange=async()=>{sequence++;const current=sequence;clear();$('#table-input').value='';const file=$('#table-file').files[0];if(!file)return;try{if(file.size>1024*1024)throw new Error('CSV exceeds 1 MiB.');const text=await file.text();if(!active||sequence!==current)return;$('#table-input').value=text;load();}catch(error){if(active&&sequence===current)feedback.textContent=error.message;}};
+ for(const selector of ['#table-filter','#table-sort','#table-direction','#table-numeric']){$(selector).oninput=()=>{page=0;render();};$(selector).onchange=()=>{page=0;render();};}
+ $('#previous-page').onclick=()=>{page--;render();};$('#next-page').onclick=()=>{page++;render();};
+ $('#export-table').onclick=()=>{if(!table)return;if(downloadURL)URL.revokeObjectURL(downloadURL);downloadURL=URL.createObjectURL(new Blob([tableCSV(table.headers,view,$('#table-safe').checked)],{type:'text/csv;charset=utf-8'}));const link=document.createElement('a');link.href=downloadURL;link.download='clickhub-table.csv';link.click();feedback.textContent='Filtered rows exported.';};
+ return ()=>{active=false;sequence++;if(downloadURL)URL.revokeObjectURL(downloadURL);};
+}
