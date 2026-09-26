@@ -61,7 +61,7 @@ test('blocked storage shows warning without breaking navigation',async({page})=>
 test('category filters, recent list, back navigation and inert user text',async({page})=>{
  await page.goto('./');
  await page.locator('#category').selectOption('Finance');
- await expect(page.locator('.tool-card')).toHaveCount(5);
+ await expect(page.locator('.tool-card')).toHaveCount(6);
  await page.locator('#category').selectOption('All categories');
  await page.locator('[data-open="text-workbench"]').click();
  await page.locator('#input').fill('<img src=x onerror="window.bad=true">');

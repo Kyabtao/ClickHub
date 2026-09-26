@@ -19,14 +19,15 @@ export async function readImage(file) {
  if(bitmap.width*bitmap.height>MAX_SOURCE_PIXELS){bitmap.close();throw new Error('Source image exceeds 24 million pixels.');}
  return bitmap;
 }
-export async function exportImage(bitmap,width,height,type,quality) {
+// `source` is an optional {x,y,width,height} crop rectangle in source pixels.
+export async function exportImage(bitmap,width,height,type,quality,source=null) {
  dimensions(width,height);
  if(!['image/png','image/jpeg','image/webp'].includes(type))throw new Error('Unsupported output format.');
  const q=Number(quality);if(!Number.isFinite(q)||q<0.1||q>1)throw new Error('Quality must be between 0.1 and 1.');
  const canvas=document.createElement('canvas');canvas.width=Number(width);canvas.height=Number(height);
  const context=canvas.getContext('2d');if(!context)throw new Error('Canvas is not available in this browser.');
  if(type==='image/jpeg'){context.fillStyle='#ffffff';context.fillRect(0,0,canvas.width,canvas.height);}
- context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';context.drawImage(bitmap,0,0,canvas.width,canvas.height);
+ context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';if(source)context.drawImage(bitmap,source.x,source.y,source.width,source.height,0,0,canvas.width,canvas.height);else context.drawImage(bitmap,0,0,canvas.width,canvas.height);
  const blob=await new Promise(resolve=>canvas.toBlob(resolve,type,q));
  if(!blob||blob.type!==type)throw new Error('This browser cannot export the selected format. Try PNG or JPEG.');
  return {blob,canvas};

@@ -3,6 +3,8 @@ node_modules/
 
 # Generated output and reports
 dist/
+# OCR engine and language data, copied from node_modules by scripts/build/copy-ocr-assets.mjs
+public/ocr/
 /build/
 coverage/
 playwright-report/
