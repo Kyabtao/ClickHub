@@ -1,6 +1,6 @@
 # Implementation roadmap
 
-Current state: Vite/vanilla JavaScript application shell and 53 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. Deployment automation and offline caching remain pending.
+Current state: Vite/vanilla JavaScript application shell and 54 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. Deployment automation and offline caching remain pending.
 
 1. Foundation: choose a static frontend stack; implement search, categories, favorites, recent tools, themes, responsive layout, and Pages deployment.
 2. Core utilities: text workbench, JSON formatting, encoding, UUID and password generation, timestamps, units, basic calculators.
@@ -35,3 +35,5 @@ Batch five implements five roadmap items: Text Diff Checker, Markdown Editor, Re
 Batch six implements Image Cropper, Chart Builder, Audio Trimmer, and Flashcards (the sixth locally saved workspace tool). Three planned tools remain: ZIP Creator / Extractor, Image OCR, and Quiz Builder. Full validation: 65 unit tests and 138 desktop/mobile-emulated browser tests. See `docs/audits/batch-six.md`.
 
 Batch seven implements ZIP Creator / Extractor and Quiz Builder (the seventh locally saved tool). Only Image OCR remains planned; it needs a large recognition engine and language data, which should be self-hosted so images never leave the device. Full validation: 70 unit tests and 146 desktop/mobile-emulated browser tests. See `docs/audits/batch-seven.md`.
+
+Batch eight implements Image OCR. The Tesseract engine and language data are self-hosted: they are copied from `node_modules` at build time and served from the site, with no CDN requests. Every planned tool is now available, and the status list shows none planned. Full validation: 76 unit tests and 150 desktop/mobile-emulated browser tests. See `docs/audits/batch-eight.md`.

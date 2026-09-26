@@ -52,4 +52,5 @@ export const tools = [
  {"id": "flashcards", "name": "Flashcards", "category": "Education", "description": "Study decks with spaced repetition saved on this device.", "icon": "\u25eb", "tags": "flashcards study spaced repetition leitner decks local save backup", "color": "purple", "persistent": true},
  {"id": "zip-tool", "name": "ZIP Creator / Extractor", "category": "Media & files", "description": "Bundle files into a ZIP or open one and extract files.", "icon": "\u29c9", "tags": "zip archive compress extract unzip folder deflate", "color": "blue"},
  {"id": "quiz-builder", "name": "Quiz Builder", "category": "Education", "description": "Write multiple-choice quizzes, take them, and track scores.", "icon": "?", "tags": "quiz test questions multiple choice study score local save backup", "color": "purple", "persistent": true},
+ {"id": "image-ocr", "name": "Image OCR", "category": "Media & files", "description": "Extract text from images and screenshots on your device.", "icon": "T\u20dd", "tags": "ocr text recognition extract image screenshot scan tesseract hindi", "color": "blue"},
 ];

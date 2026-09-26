@@ -4,10 +4,10 @@ import {plannedTools} from '../../src/app/tool-status.js';
 test('home status lists every available tool and keeps planned entries non-launchable',async({page})=>{
  await page.goto('./#tool-status');
  await expect(page.locator('#status-rows tr')).toHaveCount(tools.length+plannedTools.length);
- await expect(page.locator('#status-summary')).toHaveText('53 available · 1 planned · 7 with local saving');
+ await expect(page.locator('#status-summary')).toHaveText('54 available · none planned · 7 with local saving');
  await page.locator('#status-filter').selectOption('Available');await expect(page.locator('#status-rows tr')).toHaveCount(tools.length);
  for(const tool of tools)await expect(page.locator(`#status-rows a[href="#tool/${tool.id}"]`)).toHaveCount(1);
- await page.locator('#status-filter').selectOption('Planned');await expect(page.locator('#status-rows tr')).toHaveCount(plannedTools.length);await expect(page.locator('#status-rows a')).toHaveCount(0);
+ expect(plannedTools).toEqual([]);await expect(page.locator('#status-filter option')).toHaveText(['All statuses','Available']);await expect(page.locator('#tool-status')).toContainText('Every tool from the original roadmap is now available.');
  await page.locator('#status-search').fill('does not exist');await expect(page.locator('#status-rows')).toContainText('No tools match');
 });
 test('status search filters by name/category and open links launch tools',async({page})=>{
