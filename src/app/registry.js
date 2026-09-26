@@ -46,4 +46,8 @@ export const tools = [
  {"id": "regex-tester", "name": "Regex Tester", "category": "Developer", "description": "Test regular expressions, groups, and replacements.", "icon": ".*", "tags": "regex regular expression pattern match replace", "color": "blue"},
  {"id": "time-zone-planner", "name": "Time Zone Planner", "category": "Travel", "description": "See a meeting time across time zones and working hours.", "icon": "\u25cd", "tags": "time zone meeting world clock travel dst", "color": "orange"},
  {"id": "budget-planner", "name": "Budget Planner", "category": "Finance", "description": "Plan monthly spending and compare with 50/30/20.", "icon": "\u25d4", "tags": "budget planner monthly income 50/30/20 savings", "color": "orange"},
+ {"id": "image-cropper", "name": "Image Cropper", "category": "Media & files", "description": "Crop images by dragging or exact pixels, with ratio presets.", "icon": "\u2702", "tags": "image crop cropper aspect ratio trim photo", "color": "blue"},
+ {"id": "chart-builder", "name": "Chart Builder", "category": "Data", "description": "Turn CSV data into bar, line, or pie charts.", "icon": "\u2587", "tags": "chart graph bar line pie svg png data visualisation", "color": "blue"},
+ {"id": "audio-trimmer", "name": "Audio Trimmer", "category": "Media & files", "description": "Cut a section of audio, add fades, and save as WAV.", "icon": "\u266a", "tags": "audio trim cut mp3 wav fade sound", "color": "blue"},
+ {"id": "flashcards", "name": "Flashcards", "category": "Education", "description": "Study decks with spaced repetition saved on this device.", "icon": "\u25eb", "tags": "flashcards study spaced repetition leitner decks local save backup", "color": "purple", "persistent": true},
 ];
