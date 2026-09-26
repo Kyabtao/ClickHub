@@ -4,7 +4,7 @@ import {plannedTools} from '../../src/app/tool-status.js';
 test('home status lists every available tool and keeps planned entries non-launchable',async({page})=>{
  await page.goto('./#tool-status');
  await expect(page.locator('#status-rows tr')).toHaveCount(tools.length+plannedTools.length);
- await expect(page.locator('#status-summary')).toHaveText('51 available · 3 planned · 6 with local saving');
+ await expect(page.locator('#status-summary')).toHaveText('53 available · 1 planned · 7 with local saving');
  await page.locator('#status-filter').selectOption('Available');await expect(page.locator('#status-rows tr')).toHaveCount(tools.length);
  for(const tool of tools)await expect(page.locator(`#status-rows a[href="#tool/${tool.id}"]`)).toHaveCount(1);
  await page.locator('#status-filter').selectOption('Planned');await expect(page.locator('#status-rows tr')).toHaveCount(plannedTools.length);await expect(page.locator('#status-rows a')).toHaveCount(0);

@@ -1,9 +1,7 @@
 import { tools } from './registry.js';
 // Roadmap entries are not registered as working tools or given launch links.
 export const plannedTools = [
- { name: 'ZIP Creator / Extractor', category: 'Media & files' },
  { name: 'Image OCR', category: 'Media & files' },
- { name: 'Quiz Builder', category: 'Education' },
 ];
 export function statusEntries() {
  return [

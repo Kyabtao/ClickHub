@@ -4,7 +4,7 @@ A personal, browser-first toolbox planned for free hosting on GitHub Pages.
 
 ## Project status
 
-The first browser-only release includes a responsive tool dashboard, search, category filters, favorites, recent tools, light/dark themes, and **51 working tools**:
+The first browser-only release includes a responsive tool dashboard, search, category filters, favorites, recent tools, light/dark themes, and **53 working tools**:
 
 - **Text Workbench:** counts words, characters (UTF-16 code units), and lines; converts case; cleans spaces; removes duplicate lines.
 - **JSON Formatter:** validates, formats, and minifies JSON. Uses JavaScript JSON parsing; numbers beyond JavaScript’s safe precision may lose precision and duplicate keys collapse.
@@ -65,15 +65,18 @@ The first browser-only release includes a responsive tool dashboard, search, cat
 - **Audio Trimmer:** cut a section of a local audio file with optional fades and export 16-bit WAV.
 - **Flashcards:** saved decks with a Leitner spaced-repetition study mode and JSON backups.
 
-Favorites, recents, and theme preferences are saved locally when browser storage is available. The original calculation/conversion tools do not save inputs or passwords. The six workspace tools (including Flashcards) save records only after an explicit Add/Save action; their privacy notice says so. Workspace data and JSON backups are **not encrypted**, and there is no cloud sync. Export backups regularly; clearing browser data removes local records. Empty planned folders retain `.gitkeep` files. GitHub Actions runs CI and publishes the site to GitHub Pages from `main`.
+- **ZIP Creator / Extractor:** bundle files or folders into a standard ZIP (deflate or stored), or open a ZIP and extract files with CRC-32 verification.
+- **Quiz Builder:** write multiple-choice quizzes in a simple text format, take them with optional shuffling, and track attempts and best scores locally.
+
+Favorites, recents, and theme preferences are saved locally when browser storage is available. The original calculation/conversion tools do not save inputs or passwords. The seven workspace tools (including Flashcards and Quiz Builder) save records only after an explicit Add/Save action; their privacy notice says so. Workspace data and JSON backups are **not encrypted**, and there is no cloud sync. Export backups regularly; clearing browser data removes local records. Empty planned folders retain `.gitkeep` files. GitHub Actions runs CI and publishes the site to GitHub Pages from `main`.
 
 ## Homepage tool status
 
 The homepage includes a searchable status table generated from the tool registry:
 
-- **51 Available:** each implemented tool, its category, storage behavior, and an Open link.
-- **3 Planned:** selected upcoming tools, clearly marked as not implemented and without launch links.
-- Six tools support local saving and JSON backups.
+- **53 Available:** each implemented tool, its category, storage behavior, and an Open link.
+- **1 Planned:** selected upcoming tools, clearly marked as not implemented and without launch links.
+- Seven tools support local saving and JSON backups.
 
 Status describes implementation progress, not live uptime or universal browser compatibility. Roadmap entries are not delivery commitments. Offline caching remains pending; GitHub Pages publishing is handled by the Pages workflow after repository Pages setup.
 
@@ -115,6 +118,7 @@ Keep root files limited to project metadata and required configuration. Put tool
 
 ## Documentation
 
+- [Batch seven validation](docs/audits/batch-seven.md)
 - [Batch six validation](docs/audits/batch-six.md)
 - [Batch five validation](docs/audits/batch-five.md)
 - [Document tools validation](docs/audits/documents.md)
@@ -133,7 +137,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The Playwright suite tests production output at `/ClickHub/` in desktop and mobile-emulated Chromium. It covers all 51 tools, navigation, persistence, input errors, and automated accessibility checks. These checks do not replace manual assistive-technology testing or testing on real mobile devices.
+The Playwright suite tests production output at `/ClickHub/` in desktop and mobile-emulated Chromium. It covers all 53 tools, navigation, persistence, input errors, and automated accessibility checks. These checks do not replace manual assistive-technology testing or testing on real mobile devices.
 
 For an existing Chromium installation, set `CHROMIUM_EXECUTABLE=/path/to/chromium` when running `npm run test:e2e`. Linux may require `npx playwright install-deps chromium`. See the audit report for the sandbox workaround and results.
 

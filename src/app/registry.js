@@ -50,4 +50,6 @@ export const tools = [
  {"id": "chart-builder", "name": "Chart Builder", "category": "Data", "description": "Turn CSV data into bar, line, or pie charts.", "icon": "\u2587", "tags": "chart graph bar line pie svg png data visualisation", "color": "blue"},
  {"id": "audio-trimmer", "name": "Audio Trimmer", "category": "Media & files", "description": "Cut a section of audio, add fades, and save as WAV.", "icon": "\u266a", "tags": "audio trim cut mp3 wav fade sound", "color": "blue"},
  {"id": "flashcards", "name": "Flashcards", "category": "Education", "description": "Study decks with spaced repetition saved on this device.", "icon": "\u25eb", "tags": "flashcards study spaced repetition leitner decks local save backup", "color": "purple", "persistent": true},
+ {"id": "zip-tool", "name": "ZIP Creator / Extractor", "category": "Media & files", "description": "Bundle files into a ZIP or open one and extract files.", "icon": "\u29c9", "tags": "zip archive compress extract unzip folder deflate", "color": "blue"},
+ {"id": "quiz-builder", "name": "Quiz Builder", "category": "Education", "description": "Write multiple-choice quizzes, take them, and track scores.", "icon": "?", "tags": "quiz test questions multiple choice study score local save backup", "color": "purple", "persistent": true},
 ];

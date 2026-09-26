@@ -99,7 +99,7 @@ test('flashcards save locally, schedule reviews, and survive reload', async ({ p
 });
 test('new tools appear under their categories in dark theme without contrast issues', async ({ page }) => {
  await page.goto('./');
- await page.locator('#category').selectOption('Education'); await expect(page.locator('.tool-card')).toHaveCount(1);
+ await page.locator('#category').selectOption('Education'); await expect(page.locator('.tool-card')).toHaveCount(2);
  await page.locator('#theme').click();
  await page.locator('[data-open="flashcards"]').click(); expect(await axe(page)).toEqual([]);
  await page.locator('#close').click(); await page.locator('#category').selectOption('Data'); await page.locator('[data-open="chart-builder"]').click();

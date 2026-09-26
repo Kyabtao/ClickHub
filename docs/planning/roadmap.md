@@ -1,6 +1,6 @@
 # Implementation roadmap
 
-Current state: Vite/vanilla JavaScript application shell and 51 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. Deployment automation and offline caching remain pending.
+Current state: Vite/vanilla JavaScript application shell and 53 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. Deployment automation and offline caching remain pending.
 
 1. Foundation: choose a static frontend stack; implement search, categories, favorites, recent tools, themes, responsive layout, and Pages deployment.
 2. Core utilities: text workbench, JSON formatting, encoding, UUID and password generation, timestamps, units, basic calculators.
@@ -33,3 +33,5 @@ Document batch adds PDF merge/extract/organize, images-to-PDF, and CSV table vie
 Batch five implements five roadmap items: Text Diff Checker, Markdown Editor, Regex Tester, Time Zone Planner, and Budget Planner. Seven planned tools remain (Chart Builder, Image Cropper, ZIP, OCR, Audio Trimmer, Flashcards, Quiz Builder). Full validation: 61 unit tests and 128 desktop/mobile-emulated browser tests. See `docs/audits/batch-five.md`.
 
 Batch six implements Image Cropper, Chart Builder, Audio Trimmer, and Flashcards (the sixth locally saved workspace tool). Three planned tools remain: ZIP Creator / Extractor, Image OCR, and Quiz Builder. Full validation: 65 unit tests and 138 desktop/mobile-emulated browser tests. See `docs/audits/batch-six.md`.
+
+Batch seven implements ZIP Creator / Extractor and Quiz Builder (the seventh locally saved tool). Only Image OCR remains planned; it needs a large recognition engine and language data, which should be self-hosted so images never leave the device. Full validation: 70 unit tests and 146 desktop/mobile-emulated browser tests. See `docs/audits/batch-seven.md`.
