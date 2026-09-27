@@ -10,7 +10,7 @@ export function languageString(codes) {
 }
 // Absolute same-origin URLs for everything tesseract.js loads. Its defaults point to a public CDN,
 // so every path must be set explicitly to keep images and code on this site.
-export function workerOptions(baseURL, origin, logger = () => {}) {
+export function workerOptions(baseURL, origin, logger = () => {}, onError = () => {}) {
  const root = new URL(`${baseURL.replace(/\/?$/, '/')}ocr/`, origin);
  if (root.origin !== new URL(origin).origin) throw new Error('OCR assets must be served from this site.');
  return {
@@ -21,6 +21,10 @@ export function workerOptions(baseURL, origin, logger = () => {}) {
   workerBlobURL: false,
   cacheMethod: 'none',
   logger,
+  // Failed jobs reject their promise, but tesseract.js 7 then re-throws the error as an uncaught
+  // exception unless a handler is given. A language-load failure inside createWorker() is also
+  // swallowed, leaving its promise pending forever, so the caller uses onError to stop waiting.
+  errorHandler: message => onError(new Error(String(message))),
  };
 }
 // Upscale small images (helps Tesseract with screenshots) and cap very large ones (memory/time).

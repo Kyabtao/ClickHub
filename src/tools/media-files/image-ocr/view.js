@@ -1,8 +1,15 @@
 import { readImage } from '../../../lib/images/process.js';
 import { OCR_LANGUAGES } from './languages.js';
 import { languageString, workerOptions, ocrScale, tidyText, summarize, progressLabel } from './logic.js';
+// tesseract.js constructs its Web Worker synchronously inside createWorker(). Capture it so a start
+// that fails (and whose promise never settles) or is cancelled can still be terminated.
+function startWorker(createWorker, args) {
+ const Native = globalThis.Worker; let spawned = null;
+ globalThis.Worker = class extends Native { constructor(...params) { super(...params); spawned = this; } };
+ try { return { pending: createWorker(...args), spawned: () => spawned }; } finally { globalThis.Worker = Native; }
+}
 export function mount(container, feedback) {
- let active = true, revision = 0, bitmap = null, previewURL = null, textURL = null, worker = null, workerLangs = '', running = false, rawText = '';
+ let starting = null, active = true, revision = 0, bitmap = null, previewURL = null, textURL = null, worker = null, workerLangs = '', running = false, rawText = '';
  const languageBoxes = OCR_LANGUAGES.map(({ code, name }) => `<label class="check-label"><input type="checkbox" name="ocr-lang" value="${code}"${code === 'eng' ? ' checked' : ''}> ${name}</label>`).join('');
  container.innerHTML = `<label class="field-label" for="image-file">Image with text (PNG, JPEG, or WebP; up to 10 MiB)</label><input id="image-file" type="file" accept="image/png,image/jpeg,image/webp"><p class="subtle-note">Tip: you can also paste a screenshot with Ctrl+V / ⌘V while this tool is open.</p><p id="image-info">No image loaded.</p><div id="ocr-preview" class="ocr-preview"></div><fieldset class="mode-switch ocr-langs"><legend class="field-label">Languages in the image (up to 3)</legend>${languageBoxes}</fieldset><label class="field-label" for="ocr-layout">Output layout</label><select id="ocr-layout"><option value="lines">Keep line breaks</option><option value="paragraphs">Join lines into paragraphs</option></select><p>Recognition runs entirely in your browser with Tesseract. The engine (about 4 MB) and each language (0.7–3 MB) load from this site the first time you run OCR; nothing is uploaded. Works best on clear, straight, printed text. Handwriting, stylised fonts, and low-resolution photos may produce errors, so check the result.</p><div class="actions"><button id="run-tool" class="primary" disabled>Extract text</button><button id="ocr-cancel" type="button" hidden>Cancel</button></div><div id="ocr-progress-wrap" hidden><label class="field-label" for="ocr-progress" id="ocr-progress-label">Working…</label><progress id="ocr-progress" max="1" value="0"></progress></div><p id="ocr-summary" role="status"></p><label class="field-label" for="result">Extracted text (editable)</label><textarea id="result" spellcheck="true"></textarea><div class="actions"><button id="copy">Copy text</button><button id="ocr-download" disabled>Download .txt</button></div>`;
  const $ = selector => container.querySelector(selector);
@@ -13,7 +20,7 @@ export function mount(container, feedback) {
   container.querySelectorAll('[name="ocr-lang"],#ocr-layout').forEach(el => { el.disabled = value; });
  }
  function clearResult() { rawText = ''; $('#result').value = ''; $('#ocr-summary').textContent = ''; $('#ocr-download').disabled = true; if (textURL) URL.revokeObjectURL(textURL); textURL = null; }
- async function stopWorker() { const current = worker; worker = null; workerLangs = ''; if (current) await current.terminate().catch(() => {}); }
+ async function stopWorker() { starting?.spawned()?.terminate(); starting = null; const current = worker; worker = null; workerLangs = ''; if (current) await current.terminate().catch(() => {}); }
  async function loadFile(file) {
   if (running) return;
   revision++; const current = revision; clearResult(); feedback.textContent = '';
@@ -57,8 +64,16 @@ export function mount(container, feedback) {
     await stopWorker();
     const { createWorker } = (await import('tesseract.js/dist/tesseract.esm.min.js')).default; // only a default export
     if (!active || current !== revision) return;
-    worker = await createWorker(langs.split('+'), 1, workerOptions(import.meta.env.BASE_URL, location.origin, progress));
-    workerLangs = langs;
+    let startFailed;
+    const failure = new Promise((_, reject) => { startFailed = reject; });
+    failure.catch(() => {});
+    // Race createWorker against its error handler: a failed language download never settles createWorker().
+    const start = startWorker(createWorker, [langs.split('+'), 1, workerOptions(import.meta.env.BASE_URL, location.origin, progress, error => startFailed(error))]);
+    starting = start;
+    let created;
+    try { created = await Promise.race([start.pending, failure]); } catch (error) { start.spawned()?.terminate(); throw error; } finally { if (starting === start) starting = null; }
+    if (!active || current !== revision) { created.terminate().catch(() => {}); return; }
+    worker = created; workerLangs = langs;
    }
    if (!active || current !== revision) return;
    const { data } = await worker.recognize(canvas);
@@ -70,7 +85,7 @@ export function mount(container, feedback) {
    $('#ocr-summary').textContent = text ? `${info.words} words · ${info.lines} lines · confidence ${info.confidence ?? '—'}% (${info.quality})${info.quality === 'low' ? '. Try a sharper, straighter, or higher-resolution image.' : ''}` : '';
    feedback.textContent = text ? 'Text extracted. Review it for mistakes before use.' : 'No text was found. Check the language selection or try a clearer image.';
   } catch (error) {
-   if (active && current === revision) { await stopWorker(); feedback.textContent = `Text recognition failed: ${error?.message || error}`; }
+   if (active && current === revision) { await stopWorker(); feedback.textContent = navigator.onLine === false ? 'This language or the OCR engine hasn’t been saved for offline use yet. Connect to the internet and run OCR once with these languages; afterwards they work offline.' : `Text recognition failed: ${error?.message || error}`; }
   } finally { if (active && current === revision) setRunning(false); }
  };
  $('#ocr-cancel').onclick = async () => { revision++; await stopWorker(); if (!active) return; setRunning(false); feedback.textContent = 'Recognition cancelled.'; $('#run-tool').focus(); };

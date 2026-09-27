@@ -1,6 +1,6 @@
 # ClickHub
 
-A personal, browser-first toolbox planned for free hosting on GitHub Pages.
+A personal, browser-first toolbox hosted free on GitHub Pages at <https://kyabtao.github.io/ClickHub/>. It works offline after the first visit and can be installed as an app.
 
 ## Project status
 
@@ -80,7 +80,7 @@ The homepage includes a searchable status table generated from the tool registry
 - **Planned:** roadmap items appear here, marked as not implemented and without launch links. Every tool from the original roadmap is now available, so the list is currently empty.
 - Seven tools support local saving and JSON backups.
 
-Status describes implementation progress, not live uptime or universal browser compatibility. Roadmap entries are not delivery commitments. Offline caching remains pending; GitHub Pages publishing is handled by the Pages workflow after repository Pages setup.
+Status describes implementation progress, not live uptime or universal browser compatibility. Roadmap entries are not delivery commitments. GitHub Pages publishing is handled by `.github/workflows/pages-cli.yml` on every push to `main`.
 
 ## Run locally
 
@@ -95,7 +95,18 @@ npm run build
 npm run preview
 ```
 
-Production files are generated in ignored `dist/`. Hash-based tool links work under `/ClickHub/` without server rewrites. This app is not yet an offline PWA.
+Production files are generated in ignored `dist/`. Hash-based tool links work under `/ClickHub/` without server rewrites. The service worker is registered only in production builds (`npm run build` + `npm run preview`), not by `npm run dev`.
+
+## Offline use and installing
+
+The production build registers a service worker (`dist/sw.js`, scoped to `/ClickHub/`):
+
+- **Precached:** on the first visit it caches the app shell and the code for all 54 tools, including lazily loaded chunks such as `pdf-lib` and the regex worker (about 0.8 MB). After that, ClickHub opens and every tool works without a connection.
+- **Cached on first use:** Image OCR's engine and language files (about 19 MiB in total) are not downloaded up front. Each file is saved the first time it is used, so OCR works offline only for languages you have already run once.
+- **Updates wait for you:** when a new version is deployed, it downloads in the background. A banner then offers **Reload to update**. Nothing switches while you're working, and old caches are deleted after the switch.
+- **Installable:** `manifest.webmanifest` and icons in `public/icons/` let browsers offer "Install app" or "Add to Home Screen".
+
+The cache holds only ClickHub's own files, never your inputs. Workspace data stays in `localStorage` as before. Clearing site data for the site removes both. `scripts/build/pwa.mjs` generates `sw.js` from `src/sw/service-worker.js` with a build-specific file list and version, so every deploy is detected as an update.
 
 ## Repository layout
 
@@ -139,7 +150,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The Playwright suite tests production output at `/ClickHub/` in desktop and mobile-emulated Chromium. It covers all 54 tools, navigation, persistence, input errors, and automated accessibility checks. These checks do not replace manual assistive-technology testing or testing on real mobile devices.
+The Playwright suite tests production output at `/ClickHub/` in desktop and mobile-emulated Chromium. It covers all 54 tools, navigation, persistence, input errors, offline mode and updates, and automated accessibility checks. These checks do not replace manual assistive-technology testing or testing on real mobile devices.
 
 For an existing Chromium installation, set `CHROMIUM_EXECUTABLE=/path/to/chromium` when running `npm run test:e2e`. Linux may require `npx playwright install-deps chromium`. See the audit report for the sandbox workaround and results.
 

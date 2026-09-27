@@ -14,7 +14,7 @@ test('OCR worker options point only at same-origin assets and disable the CDN de
  const options = workerOptions('/ClickHub/', 'https://example.test');
  assert.deepEqual([options.workerPath, options.corePath, options.langPath], ['https://example.test/ClickHub/ocr/worker.min.js', 'https://example.test/ClickHub/ocr/core/', 'https://example.test/ClickHub/ocr/lang']);
  for (const url of [options.workerPath, options.corePath, options.langPath]) assert.equal(new URL(url).origin, 'https://example.test');
- assert.equal(options.workerBlobURL, false); assert.equal(options.cacheMethod, 'none'); assert.equal(options.gzip, true);
+ let reported; workerOptions('/', 'https://example.test', undefined, error => { reported = error; }).errorHandler('Network error'); assert.equal(reported.message, 'Network error'); assert.doesNotThrow(() => options.errorHandler('ignored')); assert.equal(options.workerBlobURL, false); assert.equal(options.cacheMethod, 'none'); assert.equal(options.gzip, true);
  assert.equal(workerOptions('/', 'http://localhost:5173').workerPath, 'http://localhost:5173/ocr/worker.min.js');
  assert.throws(() => workerOptions('//cdn.example/', 'https://example.test'), /served from this site/);
 });

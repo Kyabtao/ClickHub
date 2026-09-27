@@ -1,6 +1,6 @@
 # Implementation roadmap
 
-Current state: Vite/vanilla JavaScript application shell and 54 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. Deployment automation and offline caching remain pending.
+Current state: Vite/vanilla JavaScript application shell and 54 local tools implemented. Includes search, category filters, favorites, recents, themes, developer utilities, calculators, color and aspect helpers, and local hashing. See README for the full list. The site deploys to GitHub Pages from `main` and works offline as an installable app.
 
 1. Foundation: choose a static frontend stack; implement search, categories, favorites, recent tools, themes, responsive layout, and Pages deployment.
 2. Core utilities: text workbench, JSON formatting, encoding, UUID and password generation, timestamps, units, basic calculators.
@@ -37,3 +37,5 @@ Batch six implements Image Cropper, Chart Builder, Audio Trimmer, and Flashcards
 Batch seven implements ZIP Creator / Extractor and Quiz Builder (the seventh locally saved tool). Only Image OCR remains planned; it needs a large recognition engine and language data, which should be self-hosted so images never leave the device. Full validation: 70 unit tests and 146 desktop/mobile-emulated browser tests. See `docs/audits/batch-seven.md`.
 
 Batch eight implements Image OCR. The Tesseract engine and language data are self-hosted: they are copied from `node_modules` at build time and served from the site, with no CDN requests. Every planned tool is now available, and the status list shows none planned. Full validation: 76 unit tests and 150 desktop/mobile-emulated browser tests. See `docs/audits/batch-eight.md`.
+
+Offline support adds a generated service worker, a web app manifest, and icons. The app shell and all tool code are precached. Image OCR's files are cached on first use. Updates are applied only when the user accepts the update banner. Full validation: 82 unit tests and 156 desktop/mobile-emulated browser tests. See `docs/audits/offline.md`.

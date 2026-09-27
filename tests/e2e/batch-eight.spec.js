@@ -73,6 +73,7 @@ test('Image OCR accepts pasted screenshots, validates languages, rejects bad fil
  await expect(page.locator('[name="ocr-lang"][value="eng"]')).toBeDisabled();
  await page.locator('#ocr-cancel').click();
  await expect(page.locator('#feedback')).toHaveText('Recognition cancelled.'); await expect(page.locator('#ocr-cancel')).toBeHidden();
+ await expect.poll(() => page.workers().filter(w => w.url().includes('/ocr/worker.min.js')).length).toBe(0);
  await expect(page.locator('#run-tool')).toBeEnabled(); await expect(page.locator('#run-tool')).toBeFocused();
  await expect(page.locator('#result')).toHaveValue('');
  // Running again after a cancel starts a fresh worker and succeeds.
@@ -80,5 +81,7 @@ test('Image OCR accepts pasted screenshots, validates languages, rejects bad fil
  await expect(page.locator('#feedback')).toHaveText('Text extracted. Review it for mistakes before use.', { timeout: 90_000 });
  expect(await page.locator('#result').inputValue()).toMatch(/Pasted screenshot/);
  // Closing the tool mid-way does not leave errors behind.
+ expect(page.workers().filter(w => w.url().includes('/ocr/worker.min.js')).length).toBe(1);
  await page.locator('#close').click(); await expect(page.locator('#tool-dialog')).toBeHidden();
+ await expect.poll(() => page.workers().filter(w => w.url().includes('/ocr/worker.min.js')).length).toBe(0);
 });
