@@ -39,3 +39,5 @@ Batch seven implements ZIP Creator / Extractor and Quiz Builder (the seventh loc
 Batch eight implements Image OCR. The Tesseract engine and language data are self-hosted: they are copied from `node_modules` at build time and served from the site, with no CDN requests. Every planned tool is now available, and the status list shows none planned. Full validation: 76 unit tests and 150 desktop/mobile-emulated browser tests. See `docs/audits/batch-eight.md`.
 
 Offline support adds a generated service worker, a web app manifest, and icons. The app shell and all tool code are precached. Image OCR's files are cached on first use. Updates are applied only when the user accepts the update banner. Full validation: 82 unit tests and 156 desktop/mobile-emulated browser tests. See `docs/audits/offline.md`.
+
+A design refresh groups the home page by category with jump links, replaces the tall cards with compact, fully clickable ones, adds live stats and a sticky dialog heading with the tool icon, and fixes a missing icon and duplicate glyphs. Validation: 82 unit tests and 158 browser tests. See `docs/audits/design-refresh.md`.
