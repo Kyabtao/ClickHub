@@ -1,7 +1,7 @@
 import { createStore, parseBackup, MAX_BACKUP_BYTES, localToday } from '../../lib/storage/workspace.js';
 export function mountCollection(container, feedback, config) {
- let active=true,editing=null,store;
- container.innerHTML=`<p class="workspace-warning">Saved only in this browser, not encrypted or synced. Export backups regularly. Unsaved form edits are discarded when you close this tool.</p><div class="actions"><button id="export-backup">Export JSON backup</button><button id="import-backup">Replace from backup…</button></div><label class="field-label" for="backup-file">Backup JSON file (up to 2 MiB)</label><input id="backup-file" type="file" accept=".json,application/json"><p id="workspace-summary" role="status"></p><form id="record-form"><div id="record-fields"></div><div class="actions"><button id="save-record" class="primary" type="submit">Add record</button><button id="cancel-edit" type="button" hidden>Cancel edit</button></div></form><label class="field-label" for="record-search">Search saved records</label><input id="record-search" type="search"><div id="record-list"></div>`;
+ let active=true,editing=null,store,extension=null;
+ container.innerHTML=`<p class="workspace-warning">Saved only in this browser, not encrypted or synced. Export backups regularly. Unsaved form edits are discarded when you close this tool.</p><div class="actions"><button id="export-backup">Export JSON backup</button><button id="import-backup">Replace from backup…</button></div><label class="field-label" for="backup-file">Backup JSON file (up to 2 MiB)</label><input id="backup-file" type="file" accept=".json,application/json"><p id="workspace-summary" role="status"></p><div id="collection-extra"></div><form id="record-form"><div id="record-fields"></div><div class="actions"><button id="save-record" class="primary" type="submit">Add record</button><button id="cancel-edit" type="button" hidden>Cancel edit</button></div></form><label class="field-label" for="record-search">Search saved records</label><input id="record-search" type="search"><div id="record-list"></div>`;
  const $=selector=>container.querySelector(selector);
  function message(text){if(active)feedback.textContent=text;}
  function fail(error){message(error.message||String(error));}
@@ -34,6 +34,7 @@ export function mountCollection(container, feedback, config) {
  function render(){
   const records=store.records;const query=$('#record-search').value.toLowerCase();const list=$('#record-list');list.replaceChildren();
   $('#workspace-summary').textContent=config.summary?config.summary(records):`${records.length} saved records`;
+  extension?.refresh?.(records);
   const visible=records.filter(record=>config.search(record).toLowerCase().includes(query));
   if(!visible.length){const empty=document.createElement('p');empty.textContent='No matching records. Add a record or change your search.';list.append(empty);}
   for(const record of visible){
@@ -73,6 +74,8 @@ export function mountCollection(container, feedback, config) {
    commit(imported.records);reset();$('#backup-file').value='';
   }catch(error){fail(error);}
  };
+ // Optional tool-specific panel (e.g. flashcard study) sharing this store so edits never conflict.
+ extension=config.extend?config.extend({panel:$('#collection-extra'),records:()=>store.records,commit,message,fail}):null;
  reset();render();
- return ()=>{active=false;};
+ return ()=>{active=false;extension?.dispose?.();};
 }

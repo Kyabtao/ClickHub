@@ -1,0 +1,9 @@
+OCR language data (ocr/lang/*.traineddata.gz)
+
+Source packages: @tesseract.js-data/eng, hin, spa, fra, deu (version 1.0.0, "4.0.0_best_int" models)
+https://github.com/naptha/tessdata — package license declared as MIT.
+
+The models are integer-quantised versions of the Tesseract OCR "tessdata_best" LSTM models
+(https://github.com/tesseract-ocr/tessdata_best), which are distributed under the
+Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+The full Apache License 2.0 text is included in tesseract.js-core.txt in this folder.
